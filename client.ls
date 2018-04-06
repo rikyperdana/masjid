@@ -24,5 +24,6 @@ if Meteor.isClient
 							m \li, 'Subuh'
 							m \li, 'Zuhur'
 
-	m.route document.body, \/front,
-		'/front': comp.front
+	Meteor.subscribe \masjid, onReady: ->
+		m.route document.body, \/front,
+			'/front': comp.front
