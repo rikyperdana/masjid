@@ -1,0 +1,13 @@
+15 Maret 2018
+1. Slideshow yang mengambil gambar dari data
+2. Pada .col.m3.top isikan Logo, Rincian Masjid, Jam:Menit
+3. Pada .col.m3.bottom isikan Keuangan
+4. Pada .col.m9 isikan Slideshow
+5. Pada .col.m9.bottom isikan Jam Sholat, Marquee Infos
+6. Backend Colls Gambar, Masjid, Keuangan, Infos
+7. Masjid: nama, alamat, kontak, latlng
+8. Keuangan: masuk, keluar, computed(saldo)
+9. Infos: array of strings
+10. Jadwal sholat berasal dari praytimes.org/manual
+11. Login masjid dan admin
+12. Rentang Sholat: persiapan, adzan, iqomat, durasi

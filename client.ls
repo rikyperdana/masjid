@@ -24,6 +24,30 @@ if Meteor.isClient
 							m \li, 'Subuh'
 							m \li, 'Zuhur'
 
+	comp.admin =
+		controller: reactive ->
+			@formEvent = onsubmit: (e) ->
+				e.preventDefault!
+				Meteor.call \upsert, _.zipObject do
+					_.map e.target[0 to 3], \name
+					_.map e.target[0 to 3], \value
+		view: (ctrl) -> m \.admin,
+			m \.navbar-fixed, m \nav.green, m \.nav-wrapper,
+				m \a.brand-logo.center 'Admin Masjid'
+				m \ul.right,
+					unless Meteor.userId then m \li, m \a, \Login
+					else m \li, m \a, \Logout
+			m \.container,
+				m \h5, 'Identitas Masjid'
+				m \form, ctrl.formEvent,
+					m \input, name: \nama, placeholder: 'Nama Masjid'
+					m \input, name: \alamat, placeholder: 'Alamat Masjid'
+					m \.row,
+						m \.col.m6, m \input, name: \latitude, placeholder: \Latitude
+						m \.col.m6, m \input, name: \longitude, placeholder: \Longitude
+					m \input.btn, type: \submit, value: \simpan
+
 	Meteor.subscribe \masjid, onReady: ->
 		m.route document.body, \/front,
 			'/front': comp.front
+			'/admin': comp.admin
