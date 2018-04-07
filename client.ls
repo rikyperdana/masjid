@@ -1,5 +1,7 @@
 if Meteor.isClient
 
+	adminMenus = <[ profil pengaturan keuangan ]>
+
 	comp = {}; style = {}
 
 	style.front =
@@ -14,18 +16,17 @@ if Meteor.isClient
 			padding-left: \200px
 
 	comp.front =
-		view: ->
-			m \body, style.front.body,
-				m \main, style.front.main
-				m \footer.page-footer.green, m \.container, m \.row,
-					m \.col.l6,
-						m \h5.white-text, 'Informasi Masjid'
-						m \p.grey-text.text-lighten-4, 'Jumlah infaq & sodaqoh hari ini'
-					m \.col.l4,
-						m \h5.white-text, 'Jadwal Sholat'
-						m \ul,
-							m \li, 'Subuh'
-							m \li, 'Zuhur'
+		view: -> m \body, style.front.body,
+			m \main, style.front.main
+			m \footer.page-footer.green, m \.container, m \.row,
+				m \.col.l6,
+					m \h5.white-text, 'Informasi Masjid'
+					m \p.grey-text.text-lighten-4, 'Jumlah infaq & sodaqoh hari ini'
+				m \.col.l4,
+					m \h5.white-text, 'Jadwal Sholat'
+					m \ul,
+						m \li, 'Subuh'
+						m \li, 'Zuhur'
 
 	comp.admin = (child) ->
 		view: (ctrl) -> m \.admin,
@@ -36,7 +37,7 @@ if Meteor.isClient
 					else m \li, m \a, \Logout
 			m \ul.fixed.side-nav,
 				m \li, m \a.center, m \b, 'Admin Menu'
-				_.map <[ profil pengaturan keuangan ]>, (i) ->
+				_.map adminMenus, (i) ->
 					m \li, m \a, href: "?/admin/#i", _.startCase i
 			m \.container, style.admin.container,
 				if child then m \.child, child
@@ -54,16 +55,14 @@ if Meteor.isClient
 			m \form, ctrl.formEvent,
 				m \input, name: \nama, placeholder: 'Nama Masjid'
 				m \input, name: \alamat, placeholder: 'Alamat Masjid'
-				m \.row,
-					m \.col.m6, m \input, name: \latitude, placeholder: \Latitude
-					m \.col.m6, m \input, name: \longitude, placeholder: \Longitude
+				m \.row, _.map <[ latitude longitude ]>, (i) ->
+					m \.col.m6, m \input, name: i, placeholder: _.startCase i
 				m \input.btn, type: \submit, value: \simpan
 
 	Meteor.subscribe \masjid, onReady: ->
 		routes =
 			'/front': comp.front
 			'/admin': comp.admin!
-		adminMenus = <[ profil pengaturan keuangan ]>
 		_.assign routes, _.zipObject do
 			_.map adminMenus, (i) -> "/admin/#i"
 			_.map adminMenus, (i) -> comp.admin comp[i]
